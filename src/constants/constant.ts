@@ -28,3 +28,12 @@ export const sortingObject = [
   { value: "priceHighToLow", label: "Price: High to Low" },
   { value: "category", label: "Category" },
 ];
+
+export const categoriesObject = ["Food", "Travel", "Office", "Other"];
+
+export const amountRanges = [
+  "Rs. 0 to Rs. 1000",
+  "Rs. 1000 to Rs. 2000",
+  "Rs. 2000 to Rs. 3000",
+  "Rs. 3000 and above"
+]

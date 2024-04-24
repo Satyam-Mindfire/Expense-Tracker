@@ -28,4 +28,17 @@ export const Strings = {
 
   //Home page string
   addExpense: "Add Expense",
+  filters: "FILTERS",
+  categories: "CATEGORIES",
+  amount: "AMOUNT",
+  date: "DATE",
+  from:'From',
+  to:'To',
+  addNewExpanse: "Add New Expense",
+  title: "Title",
+  amountStr: "Amount",
+  description:'Description',
+  dateStr: "Date",
+  categoryStr: "Category",
+  submit: "Submit",
 } as const;

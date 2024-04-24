@@ -22,6 +22,7 @@ interface InputProps {
   inputClassName?: string;
   errorClassName?: string;
   containerClassName?: string;
+  minDate?: string;
 }
 
 // Create the FormField component
@@ -35,7 +36,10 @@ const Input: React.FC<InputProps> = ({
   errorClassName = "",
   containerClassName = "",
   placeholder = "",
+  minDate
 }) => {
+  const today = new Date();
+  const maxDate = today.toISOString().split("T")[0];
   return (
     <div className={`mb-4 ${containerClassName}`}>
       {/* Label for the input field */}
@@ -53,6 +57,8 @@ const Input: React.FC<InputProps> = ({
         id={id}
         className={`w-full p-2 border rounded bg-light-inputColor border-2 border-light-inputBorderColor placeholder-light-placeHolderColor rounded-lg ${inputClassName}`}
         placeholder={placeholder}
+        min={minDate}
+        max={maxDate}
       />
 
       {/* Error message */}
