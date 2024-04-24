@@ -13,6 +13,7 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import Checkbox from "../../components/checkbox/Checkbox";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import FormPopup from "../../components/form_popup/FormPopup";
+import ProfilePopup from "../../components/profile_popup/ProfilePopup";
 
 const Home = () => {
   const [selectedSorting, setSelectedSorting] = useState<string>("");
@@ -21,7 +22,7 @@ const Home = () => {
     []
   );
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
-
+  const [isProfilePopupOpen, setIsProfilePopupOpen] = useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
   const handleCategoryCheckboxChange = (category: string) => {
@@ -53,14 +54,24 @@ const Home = () => {
     setIsPopupOpen(false);
   };
 
+  const openProfilePopup = () => {
+    setIsProfilePopupOpen(true);
+  };
+
+  const closeProfilePopup = () => {
+    setIsProfilePopupOpen(false);
+  };
+
   return (
     <div>
       {/* Navbar */}
-      <Navbar />
+      <Navbar onClick={openProfilePopup} />
 
       {/* Sorting and Add Expense section */}
       <div className="mb-2 flex justify-between items-center">
-        <Button className=" rounded-2xl ml-5 w-32" onClick={openPopup}>{Strings.addExpense}</Button>
+        <Button className=" rounded-2xl ml-5 w-32" onClick={openPopup}>
+          {Strings.addExpense}
+        </Button>
         <div className="flex mr-5 border p-2">
           <Dropdown
             options={sortingObject}
@@ -139,6 +150,7 @@ const Home = () => {
         </div>
       </div>
       <FormPopup isOpen={isPopupOpen} onClose={closePopup} />
+      <ProfilePopup isOpen={isProfilePopupOpen} onClose={closeProfilePopup} />
     </div>
   );
 };
