@@ -1,13 +1,11 @@
 import { Formik, Form } from "formik";
-import Input from "../../components/Input/Input";
+import { Input, Button } from "../../components";
 import { Icons, Strings } from "../../constants";
-import Button from "../../components/button/Button";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = () => {};
 
@@ -85,7 +83,10 @@ const SignUp = () => {
             <label className="mr-1 text-light-primaryText">
               {Strings.signInLinkText}
             </label>
-            <button className="self-end mr-2 text-light-linkButton" onClick={goBack}>
+            <button
+              className="self-end mr-2 text-light-linkButton"
+              onClick={goBack}
+            >
               {Strings.signIn}
             </button>
           </div>

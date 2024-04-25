@@ -1,0 +1,316 @@
+{
+  "uuid": "fe75e446-2494-4c29-8d37-e6c9727eff39",
+  "lastMigration": 32,
+  "name": "Expense Tracker",
+  "endpointPrefix": "api/v1",
+  "latency": 0,
+  "port": 3002,
+  "hostname": "",
+  "folders": [
+    {
+      "uuid": "0551af49-24af-4bec-8734-3d9977a5119f",
+      "name": "auth",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "b3c61b7d-36c1-4f3b-aa67-4c858660245a"
+        },
+        {
+          "type": "route",
+          "uuid": "089ffdaf-a148-4c86-819a-27e8ae06ac60"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "uuid": "b3c61b7d-36c1-4f3b-aa67-4c858660245a",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/login",
+      "responses": [
+        {
+          "uuid": "d4a10b6f-5adc-4bf6-9e73-fd1a320dbf7e",
+          "body": "{\n  \"status\": \"true\",\n  \"message\": \"Login success\",\n  \"data\": {\n    \"email\": \"{{body 'email'}}\",\n    \"full_name\": \"Demo\",\n    \"phone_number\": \"+19876543211\",\n    \"profileSignedUrl\": \"{{faker 'image.url'}}\",\n    \"token\": \"eyJraWQiOiJxUzQ2bHhTSTc1MnFKSGFlQlVFa0FyS25vOXg2aWc3K0lxMkljUVFYWmhRPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI5Y\",\n    \"access_token\": \"{{faker 'datatype.number' min=1 max=25}}|{{faker 'random.alphaNumeric' 25}}\",\n    \"refresh_token\": \"{{faker 'datatype.number' min=1 max=25}}|{{faker 'random.alphaNumeric' 25}}\"\n  },\n  \"error\": null\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Success Response",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test@ex.com",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "Test@1234",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "602bb329-d8e9-4660-885b-950618c8a10d",
+          "body": "{\n  \"status\": \"false\",\n  \"message\": \"email and password are required\",\n  \"data\": null,\n  \"error\": \"email and password are required\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "When email or password is not provided",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "9584d816-0546-4f94-aec1-a71c8b77c983",
+          "body": "{\n  \"status\": \"false\",\n  \"message\": \"The email address provided is not registered in our system. Please check and try again.\",\n  \"data\": null,\n  \"error\": \"The email address provided is not registered in our system. Please check and try again.\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Email not found",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test@ex.com",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "test@1234",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "dee2d5b2-734e-43f1-bf65-c63850be3b95",
+          "body": "{\n  \"status\": \"false\",\n  \"message\": \"Incorrect password. Please try again.\",\n  \"data\": null,\n  \"error\": \"Incorrect password. Please try again.\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Incorrect password",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "test@ex.com",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "Test@1234",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "089ffdaf-a148-4c86-819a-27e8ae06ac60",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/sign_up",
+      "responses": [
+        {
+          "uuid": "fb2cbcb3-928d-492f-9963-1c989fd5ed12",
+          "body": "{\n  \"status\": \"true\",\n  \"message\": \"User created\",\n  \"data\": {\n    \"email\": \"{{body 'email'}}\",\n    \"full_name\": \"{{body 'full_name'}}\",\n    \"phone_number\": \"{{body 'phone_no'}}\",\n    \"profileSignedUrl\": \"{{faker 'image.url'}}\",\n    \"token\": \"eyJraWQiOiJxUzQ2bHhTSTc1MnFKSGFlQlVFa0FyS25vOXg2aWc3K0lxMkljUVFYWmhRPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI5Y\",\n    \"access_token\": \"{{faker 'datatype.number' min=1 max=25}}|{{faker 'random.alphaNumeric' 25}}\",\n    \"refresh_token\": \"{{faker 'datatype.number' min=1 max=25}}|{{faker 'random.alphaNumeric' 25}}\"\n  },\n  \"error\": null\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2d53929d-a19c-4453-91c2-57c49ae40e97",
+          "body": "{\n  \"status\": \"false\",\n  \"message\": \"Please provide all fields\",\n  \"data\": null,\n  \"error\": \"All fields are not provided\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "when all fields are not provided",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "full_name",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            },
+            {
+              "target": "body",
+              "modifier": "confirm_password",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "folder",
+      "uuid": "0551af49-24af-4bec-8734-3d9977a5119f"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept,Authorization,Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

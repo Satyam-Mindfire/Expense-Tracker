@@ -1,12 +1,26 @@
 import { Formik, Form } from "formik";
-import Input from "../../components/Input/Input";
+import { Input, Button } from "../../components";
 import { Icons, Strings } from "../../constants";
-import Button from "../../components/button/Button";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../api";
 
 const SignIn = () => {
-  const handleSubmit = () => {};
+  
+  const handleSubmit = async() => {
+    const data = {
+      email: 'test@ex.com',
+      password: 'Test@1234'
+    }
+
+    try {
+      const res = await api.post('auth/login', data)
+      return res
+    } catch (e) {
+      console.log(e)
+      // return rejectWithValue(e)
+    }
+  };
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -18,7 +32,7 @@ const SignIn = () => {
   });
 
   const navigateToSignUpPage = () => {
-    navigate('/signUp');
+    navigate("/signUp");
   };
 
   return (
@@ -65,7 +79,10 @@ const SignIn = () => {
             <label className="mr-1 text-light-primaryText">
               {Strings.signUpLinkText}
             </label>
-            <button className="self-end mr-2 text-light-linkButton" onClick={navigateToSignUpPage}>
+            <button
+              className="self-end mr-2 text-light-linkButton"
+              onClick={navigateToSignUpPage}
+            >
               {Strings.signUp}
             </button>
           </div>

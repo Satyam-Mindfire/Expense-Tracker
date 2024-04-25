@@ -1,7 +1,14 @@
 import { useState } from "react";
-import Button from "../../components/button/Button";
-import Navbar from "../../components/navbar/Navbar";
-import Table from "../../components/table/Table";
+import {
+  Button,
+  Navbar,
+  Table,
+  Dropdown,
+  Checkbox,
+  CustomInput,
+  FormPopup,
+  ProfilePopup,
+} from "../../components";
 import { Strings } from "../../constants";
 import {
   sortingObject,
@@ -9,11 +16,6 @@ import {
   categoriesObject,
   amountRanges,
 } from "../../constants/constant";
-import Dropdown from "../../components/dropdown/Dropdown";
-import Checkbox from "../../components/checkbox/Checkbox";
-import CustomInput from "../../components/CustomInput/CustomInput";
-import FormPopup from "../../components/form_popup/FormPopup";
-import ProfilePopup from "../../components/profile_popup/ProfilePopup";
 
 const Home = () => {
   const [selectedSorting, setSelectedSorting] = useState<string>("");

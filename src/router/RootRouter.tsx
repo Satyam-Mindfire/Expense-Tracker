@@ -4,18 +4,26 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import SignIn from "../pages/signIn/SignIn";
-import SignUp from "../pages/signUp/SignUp";
-import Home from "../pages/home/Home";
+import { SignIn, SignUp, Home } from "../pages";
+import ProtectedRoute from "./ProtectedRoute";
+import { useAuthUser } from "../hooks";
+import PublicRoute from "./PublicRoutes";
+import { Routes } from "../constants";
 
 const RootRouter = () => {
   // Configure nested routes with JSX
+  const { user } = useAuthUser();
+  const isAuthenticated = !!user;
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
+        <Route element={<PublicRoute isAuthenticated={isAuthenticated} />}>
+          <Route path={Routes.login} element={<SignIn />} />
+          <Route path={Routes.signUp} element={<SignUp />} />
+        </Route>
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+          <Route path={Routes.home} element={<Home />} />
+        </Route>
       </>
     )
   );
