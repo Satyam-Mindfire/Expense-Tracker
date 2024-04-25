@@ -1,3 +1,4 @@
+export const timeout = 30000
 export const expenses = [
   {
     title: "Groceries",
