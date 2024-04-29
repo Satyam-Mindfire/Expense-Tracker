@@ -2,12 +2,46 @@ import { Formik, Form } from "formik";
 import { Input, Button } from "../../components";
 import { Icons, Strings } from "../../constants";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { api, endPoints } from "../../api";
+import { useAuthContext } from "../../contexts";
+import { showSuccessToast } from "../../utils";
+
+interface SignUpRequest {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { login } = useAuthContext();
+  const location = useLocation();
 
-  const handleSubmit = () => {};
+  const mutation = useMutation({
+    mutationFn: (userData: SignUpRequest) => {
+      return api.post(endPoints.auth.signUp, userData);
+    },
+    onSuccess: (response) => {
+      login(response.data);
+      const from = location.state?.from || "/";
+      navigate(from);
+      showSuccessToast({message: Strings.successSignUpMsg})
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleSubmit = async (values: SignUpRequest) => {
+    try {
+      await mutation.mutateAsync(values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(Strings.nameIsRequired),

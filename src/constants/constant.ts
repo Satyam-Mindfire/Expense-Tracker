@@ -1,6 +1,7 @@
-export const timeout = 30000
+export const timeout = 30000;
 export const expenses = [
   {
+    id:1,
     title: "Groceries",
     description: "Weekly grocery shopping",
     amount: 50.25,
@@ -8,13 +9,15 @@ export const expenses = [
     category: "Food",
   },
   {
+    id:2,
     title: "Gasoline",
     description: "Refill car's fuel tank",
     amount: 40.8,
     date: "2024-04-09",
-    category: "Transportation",
+    category: "Travel",
   },
   {
+    id:3,
     title: "Office Supplies",
     description: "Purchase printer paper and ink",
     amount: 25.5,

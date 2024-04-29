@@ -2,6 +2,7 @@ import React from "react";
 import { Icons } from "../../constants";
 
 interface TableRow {
+  id: number;
   title: string;
   description: string;
   amount: number;

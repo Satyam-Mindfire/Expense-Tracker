@@ -1,27 +1,23 @@
 import { Formik, Form } from "formik";
 import { Input, Button } from "../../components";
-import { Icons, Strings } from "../../constants";
+import { Icons, Routes, Strings } from "../../constants";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { api } from "../../api";
+import { useLocation, useNavigate } from "react-router-dom";
+import { api, endPoints } from "../../api";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthContext } from "../../contexts";
+import { showSuccessToast } from "../../utils";
+
+interface ValueType {
+  email: string;
+  password: string;
+}
 
 const SignIn = () => {
-  
-  const handleSubmit = async() => {
-    const data = {
-      email: 'test@ex.com',
-      password: 'Test@1234'
-    }
-
-    try {
-      const res = await api.post('auth/login', data)
-      return res
-    } catch (e) {
-      console.log(e)
-      // return rejectWithValue(e)
-    }
-  };
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuthContext();
+
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email(Strings.invalidEmail)
@@ -31,8 +27,31 @@ const SignIn = () => {
       .required(Strings.passwordIsRequired),
   });
 
+  const mutation = useMutation({
+    mutationFn: (userData: ValueType) => {
+      return api.post(endPoints.auth.logIn, userData);
+    },
+    onSuccess: (response) => {
+      login(response.data);
+      const from = location.state?.from || "/";
+      navigate(from);
+      showSuccessToast({message: Strings.successSignInMsg})
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleSubmit = async (values: ValueType) => {
+    try {
+      await mutation.mutateAsync(values);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   const navigateToSignUpPage = () => {
-    navigate("/signUp");
+    navigate(Routes.signUp);
   };
 
   return (
@@ -66,11 +85,6 @@ const SignIn = () => {
                 placeholder={Strings.passwordPlaceholder}
                 containerClassName="mb-3"
               />
-              <div className="flex justify-end">
-                <button className="mr-2 text-light-linkButton">
-                  {Strings.forgetPassword}
-                </button>
-              </div>
               <Button className="mt-5 w-full">{Strings.signIn}</Button>
             </Form>
           </Formik>

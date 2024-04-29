@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Navbar,
@@ -9,13 +9,17 @@ import {
   FormPopup,
   ProfilePopup,
 } from "../../components";
-import { Strings } from "../../constants";
+import { Routes, Strings } from "../../constants";
 import {
   sortingObject,
-  expenses,
   categoriesObject,
   amountRanges,
 } from "../../constants/constant";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts";
+import { api, endPoints } from "../../api";
+import { useQuery } from "@tanstack/react-query";
+import { Expense, ExpenseApiResponse } from "../../types";
 
 const Home = () => {
   const [selectedSorting, setSelectedSorting] = useState<string>("");
@@ -27,6 +31,38 @@ const Home = () => {
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
+  const navigate = useNavigate();
+  const { logout } = useAuthContext();
+  const [expenses, setExpenses] = useState<ExpenseApiResponse>();
+
+  const filterExpensesByCategory = (
+    expenses: Expense[],
+    categories: string[]
+  ): Expense[] => {
+    return expenses.filter((expense) => categories.includes(expense.category));
+  };
+
+  useEffect(() => {
+    console.log(selectedCategories);
+    console.log(selectedAmountRanges);
+  }, [selectedAmountRanges, selectedCategories]);
+
+  const fetchExpenses = async () => {
+    const expanses = await api.get(endPoints.expanses.expanses);
+    return expanses;
+  };
+  const { isPending, data: expanseList } = useQuery({
+    queryKey: [Strings.queryKeys.expanses],
+    queryFn: fetchExpenses,
+  });
+
+   // Update expenseData state variable when data is received
+   useEffect(() => {
+    if (expanseList) {
+      setExpenses(expanseList.data);
+    }
+  }, [expanseList]);
+
   const handleCategoryCheckboxChange = (category: string) => {
     if (selectedCategories.includes(category)) {
       setSelectedCategories(
@@ -47,6 +83,10 @@ const Home = () => {
   };
   const handleEdit = () => {};
   const handleDelete = () => {};
+  const handleLogout = () => {
+    logout();
+    navigate(Routes.login, { replace: true });
+  };
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -148,11 +188,26 @@ const Home = () => {
         </div>
         {/* Expense table */}
         <div className="overflow-x-auto w-full">
-          <Table data={expenses} onDelete={handleDelete} onEdit={handleEdit} />
+          {/* Loader */}
+          {isPending ? (
+            <div className="flex justify-center items-center h-full">
+              Loading...
+            </div>
+          ) : (
+            <Table
+              data={expanseList?.data.data ? expanseList?.data.data : []}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          )}
         </div>
       </div>
       <FormPopup isOpen={isPopupOpen} onClose={closePopup} />
-      <ProfilePopup isOpen={isProfilePopupOpen} onClose={closeProfilePopup} />
+      <ProfilePopup
+        isOpen={isProfilePopupOpen}
+        onClose={closeProfilePopup}
+        onLogOut={handleLogout}
+      />
     </div>
   );
 };
