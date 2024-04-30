@@ -4,7 +4,7 @@ import { getGeneralApiProblem } from "./apiProblem";
 
 // Initialize axios api instance
 export const api = axios.create({
-  baseURL: "http://localhost:3002/api/v1/",
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: timeout,
   headers: {
     Accept: "application/json",
