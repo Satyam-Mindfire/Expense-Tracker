@@ -33,7 +33,7 @@ import { useExpenseQuery } from "../../queries";
 
 /**
  * Home Component
- * 
+ *
  * Renders the main page of the expense tracker application.
  * Allows users to view, filter, sort, add, edit, and delete expenses.
  */
@@ -238,12 +238,12 @@ const Home = () => {
             data: {
               ...prevData.data,
               data: [
-                ...expenses,
                 {
                   ...values,
                   category: category,
                   id: uuidv4(),
                 },
+                ...expenses,
               ],
             },
           };
@@ -346,6 +346,7 @@ const Home = () => {
               onChange={(e) => setDateTo(e.target.value)}
               inputClassName="px-1 ml-1"
               labelClassName="w-8"
+              minDate={dateFrom}
             />
           </div>
         </div>
