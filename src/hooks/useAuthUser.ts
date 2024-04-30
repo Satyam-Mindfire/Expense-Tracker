@@ -22,6 +22,7 @@ export const useAuthUser = () => {
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
+      console.log(error);
     } finally {
       // Set the app ready state to true
       setIsAppReady(true);

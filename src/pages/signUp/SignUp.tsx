@@ -3,46 +3,55 @@ import { Input, Button } from "../../components";
 import { Icons, Strings } from "../../constants";
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { api, endPoints } from "../../api";
 import { useAuthContext } from "../../contexts";
 import { showSuccessToast } from "../../utils";
+import { SignUpRequest } from "../../types/user";
+import { AxiosResponse } from "axios";
+import { useSignUpMutation } from "../../queries";
 
-interface SignUpRequest {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
+/**
+ * SignUp Component
+ * 
+ * Renders the sign-up form for new users to register.
+ * Allows users to input their name, email, password, and confirm password.
+ * Validates form inputs using Yup schema.
+ * Submits form data to the server for registration.
+ */
 const SignUp = () => {
   const navigate = useNavigate();
   const { login } = useAuthContext();
   const location = useLocation();
 
-  const mutation = useMutation({
-    mutationFn: (userData: SignUpRequest) => {
-      return api.post(endPoints.auth.signUp, userData);
-    },
-    onSuccess: (response) => {
-      login(response.data);
-      const from = location.state?.from || "/";
-      navigate(from);
-      showSuccessToast({message: Strings.successSignUpMsg})
-    },
-    onError: (error) => {
-      console.log(error);
-    },
+  /**
+   * Handle successful sign-up response
+   * @param response The AxiosResponse object containing sign-up data
+   */
+  const handleSignUpSuccess = (response: AxiosResponse<any, any>) => {
+    login(response.data);
+    const from = location.state?.from || "/";
+    navigate(from);
+    showSuccessToast({ message: Strings.successSignUpMsg });
+  };
+
+  // Mutation hook for signing up
+  const { mutateAsync } = useSignUpMutation({
+    onSuccess: handleSignUpSuccess,
+    onError: (error) => console.log(error),
   });
 
+  /**
+   * Handle form submission
+   * @param values The form values containing name, email, password, and confirm password
+   */
   const handleSubmit = async (values: SignUpRequest) => {
     try {
-      await mutation.mutateAsync(values);
+      await mutateAsync(values);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // Validation schema for form inputs
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(Strings.nameIsRequired),
     email: Yup.string()
@@ -56,9 +65,13 @@ const SignUp = () => {
       .required(Strings.confirmPasswordIsRequired),
   });
 
+  /**
+   * Navigate back to the previous page
+   */
   const goBack = () => {
     navigate(-1); // Navigate back one step
   };
+
   return (
     <>
       <div className="flex">
@@ -69,6 +82,7 @@ const SignUp = () => {
           <label className="py-4 text-light-secondaryText ">
             {Strings.secondaryText}
           </label>
+          {/* Formik form for handling form inputs */}
           <Formik
             initialValues={{
               name: "",
@@ -80,6 +94,7 @@ const SignUp = () => {
             validationSchema={validationSchema}
           >
             <Form>
+              {/* Name input */}
               <Input
                 label={Strings.name}
                 id="name"
@@ -87,6 +102,7 @@ const SignUp = () => {
                 name="name"
                 placeholder={Strings.namePlaceholder}
               />
+              {/* Email input */}
               <Input
                 label={Strings.email}
                 id="email"
@@ -94,6 +110,7 @@ const SignUp = () => {
                 name="email"
                 placeholder={Strings.emailPlaceholder}
               />
+              {/* Password input */}
               <Input
                 label={Strings.password}
                 id="password"
@@ -101,6 +118,7 @@ const SignUp = () => {
                 name="password"
                 placeholder={Strings.passwordPlaceholder}
               />
+              {/* Confirm password input */}
               <Input
                 label={Strings.confirmPassword}
                 id="confirmPassword"
@@ -109,10 +127,12 @@ const SignUp = () => {
                 placeholder={Strings.passwordPlaceholder}
                 containerClassName="mb-3"
               />
+              {/* Submit button */}
               <Button className="mt-5 w-full">{Strings.signUp}</Button>
             </Form>
           </Formik>
 
+          {/* Sign-in link */}
           <div className="text-center mt-6">
             <label className="mr-1 text-light-primaryText">
               {Strings.signInLinkText}
@@ -126,6 +146,7 @@ const SignUp = () => {
           </div>
         </div>
         <div className="flex-1 sm:block hidden">
+          {/* Image */}
           <img
             src={Icons.signIn}
             className="rounded-2xl h-fit h-screen object-cover w-full"

@@ -10,7 +10,7 @@ export const endPoints = {
     signUp: "auth/sign_up",
   },
   expanses: {
-    // Endpoint for the expanse list
+    /** Endpoint for the expanse list */
     expanses: "expanses",
   },
 };
