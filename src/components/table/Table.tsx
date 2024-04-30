@@ -1,17 +1,10 @@
 import React from "react";
-import { Icons } from "../../constants";
-
-interface TableRow {
-  title: string;
-  description: string;
-  amount: number;
-  date: string;
-  category: string;
-}
+import { Icons, Strings } from "../../constants";
+import { Expense } from "../../types";
 
 interface TableProps {
-  data: TableRow[];
-  onEdit: (row: TableRow, index: number) => void;
+  data: Expense[];
+  onEdit: (row: Expense, index: number) => void;
   onDelete: (index: number) => void;
 }
 
@@ -29,7 +22,7 @@ const Table: React.FC<TableProps> = ({ data, onEdit, onDelete }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((row, index) => (
+        {data.length > 0 ? data.map((row, index) => (
           <tr key={index} className="bg-white hover:bg-gray-100">
             <td className="border border-gray-200 py-2 px-4">{row.title}</td>
             <td className="border border-gray-200 py-2 px-4">
@@ -51,7 +44,11 @@ const Table: React.FC<TableProps> = ({ data, onEdit, onDelete }) => {
               </button>
             </td>
           </tr>
-        ))}
+        )): 
+        <div>
+         {Strings.noDataFound}
+        </div>
+        }
       </tbody>
     </table>
   );

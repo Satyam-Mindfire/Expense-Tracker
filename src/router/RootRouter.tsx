@@ -6,13 +6,13 @@ import {
 } from "react-router-dom";
 import { SignIn, SignUp, Home } from "../pages";
 import ProtectedRoute from "./ProtectedRoute";
-import { useAuthUser } from "../hooks";
 import PublicRoute from "./PublicRoutes";
 import { Routes } from "../constants";
+import { useAuthContext } from "../contexts";
 
 const RootRouter = () => {
   // Configure nested routes with JSX
-  const { user } = useAuthUser();
+  const { user } = useAuthContext();
   const isAuthenticated = !!user;
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,6 +23,7 @@ const RootRouter = () => {
         </Route>
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path={Routes.home} element={<Home />} />
+          <Route path={'/:page'} element={<Home />} />
         </Route>
       </>
     )

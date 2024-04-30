@@ -11,6 +11,7 @@ export const Strings = {
   forgetPassword: "Forget Password?",
   signUpLinkText: "Don't you have an account?",
   signUp: "Sign Up",
+  successSignInMsg: "Successfully signed in!",
 
   //Sign up page string
   welcomeText: "Welcome to Expense Tracker",
@@ -25,10 +26,12 @@ export const Strings = {
   passwordIsRequired: "Password is required",
   passwordMustMatch: "Password must match",
   confirmPasswordIsRequired: "Confirm Password is required",
+  successSignUpMsg: "Successfully signed up!",
 
   //Home page string
   addExpense: "Add Expense",
   filters: "FILTERS",
+  reset: "RESET",
   categories: "CATEGORIES",
   amount: "AMOUNT",
   date: "DATE",
@@ -53,5 +56,28 @@ export const Strings = {
   invalidDate: "Invalid Date",
   profile: "Profile",
   logout: "Logout",
-  navbarHeading: 'Expense Tracker App',
+  navbarHeading: "Expense Tracker App",
+  expenseDeleteStr: "Are you sure you want to delete this expense?",
+  noDataFound: "No data found...",
+  loading: "Loading...",
+  apiErrors: {
+    requestTimeout:
+      "Request timed out. Please check your internet connection or try again later.",
+    networkError: "Network error. Please check your internet connection.",
+    requestCanceled: "Request canceled. Please try again or contact support.",
+    unauthorizedAccess: "Unauthorized access. Please log in again.",
+    forbiddenAccess:
+      "Forbidden. You do not have permission to access this resource.",
+    resourceNotFound: "Resource not found.",
+    internalServerError:
+      "Internal server error. Please try again later or contact support.",
+    unexpectedError: "Unexpected error occurred. Please try again.",
+    badRequest: "Bad request. Please check your request parameters.",
+    appleSignInError: "Apple Sign in failed!",
+    appleSignInCancel: "User canceled Apple Sign in.",
+  },
+
+  queryKeys: {
+    expanses: "expenses",
+  },
 } as const;
