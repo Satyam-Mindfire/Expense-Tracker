@@ -15,25 +15,39 @@ import {
   categoriesObject,
   amountRanges,
 } from "../../constants/constant";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../contexts";
 import { api, endPoints } from "../../api";
-import { useQuery } from "@tanstack/react-query";
-import { Expense, ExpenseApiResponse } from "../../types";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AddFormValues, Expense } from "../../types";
+import { v4 as uuidv4 } from "uuid";
+import {
+  sortByDate,
+  sortByPriceHighToLow,
+  sortByPriceLowToHigh,
+} from "../../utils";
+import { AxiosResponse } from "axios";
+import { Pagination } from "./components/Pagination";
 
 const Home = () => {
+  // Navigation hooks
+  const { page = "1" } = useParams();
   const [selectedSorting, setSelectedSorting] = useState<string>("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedAmountRanges, setSelectedAmountRanges] = useState<string[]>(
     []
   );
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [selectedExpenseId, setSelectedExpenseId] = useState<number | string>(
+    0
+  );
   const [isProfilePopupOpen, setIsProfilePopupOpen] = useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
   const navigate = useNavigate();
   const { logout } = useAuthContext();
-  const [expenses, setExpenses] = useState<ExpenseApiResponse>();
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const queryClient = useQueryClient();
 
   const filterExpensesByCategory = (
     expenses: Expense[],
@@ -42,26 +56,145 @@ const Home = () => {
     return expenses.filter((expense) => categories.includes(expense.category));
   };
 
-  useEffect(() => {
-    console.log(selectedCategories);
-    console.log(selectedAmountRanges);
-  }, [selectedAmountRanges, selectedCategories]);
+  const filterExpensesByAmountRanges = (
+    expenses: Expense[],
+    amountRanges: string[]
+  ): Expense[] => {
+    return expenses.filter((expense) => {
+      return amountRanges.some((range) => {
+        const [minAmount, maxAmount] = parseAmountRange(range);
+        if (maxAmount === null) {
+          // Handle "3000 and above" case
+          return minAmount === null || expense.amount >= minAmount;
+        } else {
+          return (
+            (minAmount === null || expense.amount >= minAmount) &&
+            expense.amount < maxAmount
+          );
+        }
+      });
+    });
+  };
+
+  const parseAmountRange = (
+    amountRange: string
+  ): [number | null, number | null] => {
+    const ranges = amountRange.split(" to ");
+    let minAmount: number | null = null;
+    let maxAmount: number | null = null;
+
+    if (ranges[0] !== "Rs. 0") {
+      minAmount = parseFloat(ranges[0].substring(4));
+    }
+
+    if (ranges[1] !== "More") {
+      maxAmount = parseFloat(ranges[1].substring(4));
+    }
+
+    return [minAmount, maxAmount];
+  };
+  const filterExpensesByDateRange = (
+    expenses: Expense[],
+    startDate: string,
+    endDate: string
+  ): Expense[] => {
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+    return expenses.filter((expense) => {
+      const expenseDate = new Date(expense.date);
+      return parsedStartDate <= expenseDate && expenseDate <= parsedEndDate;
+    });
+  };
+
+  const filterExpenses = (
+    expenses: Expense[],
+    categories: string[],
+    amountRanges: string[],
+    startDate: string,
+    endDate: string
+  ): Expense[] => {
+    let filteredExpenses = [...expenses];
+
+    if (categories.length > 0) {
+      filteredExpenses = filterExpensesByCategory(filteredExpenses, categories);
+    }
+
+    if (amountRanges.length > 0) {
+      filteredExpenses = filterExpensesByAmountRanges(
+        filteredExpenses,
+        amountRanges
+      );
+    }
+
+    if (startDate !== "" && endDate !== "") {
+      filteredExpenses = filterExpensesByDateRange(
+        filteredExpenses,
+        startDate,
+        endDate
+      );
+    }
+
+    return filteredExpenses;
+  };
 
   const fetchExpenses = async () => {
-    const expanses = await api.get(endPoints.expanses.expanses);
+    console.log(`${endPoints.expanses.expanses}/${parseInt(page)}`);
+    const expanses = await api.get(
+      `${endPoints.expanses.expanses}/${parseInt(page)}`
+    );
     return expanses;
   };
   const { isPending, data: expanseList } = useQuery({
-    queryKey: [Strings.queryKeys.expanses],
+    queryKey: [Strings.queryKeys.expanses, page],
     queryFn: fetchExpenses,
   });
 
-   // Update expenseData state variable when data is received
-   useEffect(() => {
+  // Update expenseData state variable when data is received
+  useEffect(() => {
     if (expanseList) {
-      setExpenses(expanseList.data);
+      setExpenses(expanseList.data.data);
     }
   }, [expanseList]);
+
+  useEffect(() => {
+    if (expanseList?.data.data) {
+      const filteredExpenses = filterExpenses(
+        expanseList?.data.data,
+        selectedCategories,
+        selectedAmountRanges,
+        dateFrom,
+        dateTo
+      );
+      setExpenses(filteredExpenses);
+    }
+  }, [
+    dateFrom,
+    dateTo,
+    expanseList?.data.data,
+    selectedAmountRanges,
+    selectedCategories,
+  ]);
+
+  useEffect(() => {
+    let sortedExpenses = [];
+    switch (selectedSorting) {
+      case "date":
+        sortedExpenses = expenses.slice().sort(sortByDate);
+        setExpenses(sortedExpenses);
+        break;
+      case "priceLowToHigh":
+        sortedExpenses = expenses.slice().sort(sortByPriceLowToHigh);
+        setExpenses(sortedExpenses);
+        break;
+      case "priceHighToLow":
+        sortedExpenses = expenses.slice().sort(sortByPriceHighToLow);
+        setExpenses(sortedExpenses);
+        break;
+      case "none":
+        setExpenses(expanseList?.data.data);
+        break;
+    }
+  }, [selectedSorting]);
 
   const handleCategoryCheckboxChange = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -81,8 +214,31 @@ const Home = () => {
       setSelectedAmountRanges([...selectedAmountRanges, amount]);
     }
   };
-  const handleEdit = () => {};
-  const handleDelete = () => {};
+  const handleEdit = (row: Expense) => {
+    setSelectedExpenseId(row.id);
+    setIsPopupOpen(true);
+  };
+  const handleDelete = (index: number) => {
+    const confirmation = confirm(Strings.expenseDeleteStr);
+    if (confirmation) {
+      const updatedData: Expense[] = [...expenses];
+      updatedData.splice(index, 1);
+      queryClient.setQueryData(
+        [Strings.queryKeys.expanses, page],
+        (prevData: AxiosResponse) => {
+          if (!prevData || !Array.isArray(prevData.data.data)) return null;
+
+          return {
+            ...prevData,
+            data: {
+              ...prevData.data,
+              data: updatedData,
+            },
+          };
+        }
+      );
+    }
+  };
   const handleLogout = () => {
     logout();
     navigate(Routes.login, { replace: true });
@@ -104,6 +260,76 @@ const Home = () => {
     setIsProfilePopupOpen(false);
   };
 
+  const resetFilters = () => {
+    setSelectedAmountRanges([]);
+    setSelectedCategories([]);
+    setDateFrom("");
+    setDateTo("");
+  };
+
+  const onClickAddExpanse = () => {
+    openPopup();
+    setSelectedExpenseId(0);
+  };
+
+  const handleAddExpanseSubmit = (values: AddFormValues, category: string) => {
+    if (selectedExpenseId) {
+      const updatedExpenses = expenses.map((item) => {
+        if (item.id === selectedExpenseId) {
+          return {
+            ...item,
+            ...values,
+            category: category,
+          };
+        }
+        return item;
+      });
+      queryClient.setQueryData(
+        [Strings.queryKeys.expanses, page],
+        (prevData: AxiosResponse) => {
+          if (!prevData || !Array.isArray(prevData.data.data)) return null;
+
+          return {
+            ...prevData,
+            data: {
+              ...prevData.data,
+              data: updatedExpenses,
+            },
+          };
+        }
+      );
+    } else {
+      queryClient.setQueryData(
+        [Strings.queryKeys.expanses, page],
+        (prevData: AxiosResponse) => {
+          if (!prevData || !Array.isArray(prevData.data.data)) return null;
+
+          return {
+            ...prevData,
+            data: {
+              ...prevData.data,
+              data: [
+                {
+                  ...values,
+                  category: category,
+                  id: uuidv4(),
+                },
+                ...expenses,
+              ],
+            },
+          };
+        }
+      );
+    }
+    closePopup();
+  };
+
+  /** Handle pagination */
+  const handlePagination = (page: number) => {
+    resetFilters();
+    navigate(`/${page}`);
+  };
+
   return (
     <div>
       {/* Navbar */}
@@ -111,7 +337,7 @@ const Home = () => {
 
       {/* Sorting and Add Expense section */}
       <div className="mb-2 flex justify-between items-center">
-        <Button className=" rounded-2xl ml-5 w-32" onClick={openPopup}>
+        <Button className=" rounded-2xl ml-5 w-32" onClick={onClickAddExpanse}>
           {Strings.addExpense}
         </Button>
         <div className="flex mr-5 border p-2">
@@ -128,7 +354,12 @@ const Home = () => {
       <div className="flex border">
         {/* Filter checkboxes */}
         <div className="pt-2 w-60 border">
-          <label className="font-semibold ml-5">{Strings.filters}</label>
+          <div className="flex justify-between items-center">
+            <label className="font-semibold ml-5">{Strings.filters}</label>
+            <Button className="mr-2 py-1" onClick={resetFilters}>
+              {Strings.reset}
+            </Button>
+          </div>
           {/* Categories */}
           <div className="mt-2 border-t">
             <label className="font-semibold mb-2 ml-5 text-sm">
@@ -191,18 +422,29 @@ const Home = () => {
           {/* Loader */}
           {isPending ? (
             <div className="flex justify-center items-center h-full">
-              Loading...
+              {Strings.loading}
             </div>
           ) : (
             <Table
-              data={expanseList?.data.data ? expanseList?.data.data : []}
+              data={expenses ? expenses : []}
               onDelete={handleDelete}
               onEdit={handleEdit}
             />
           )}
         </div>
       </div>
-      <FormPopup isOpen={isPopupOpen} onClose={closePopup} />
+      <Pagination
+        currentPage={parseInt(page)}
+        totalPages={expanseList?.data.total_page ?? 1}
+        onPageChange={handlePagination}
+      />
+      <FormPopup
+        isOpen={isPopupOpen}
+        onClose={closePopup}
+        handleAddExpanseSubmit={handleAddExpanseSubmit}
+        id={selectedExpenseId}
+        page={page}
+      />
       <ProfilePopup
         isOpen={isProfilePopupOpen}
         onClose={closeProfilePopup}

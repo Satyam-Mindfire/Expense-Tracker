@@ -23,6 +23,7 @@ const RootRouter = () => {
         </Route>
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path={Routes.home} element={<Home />} />
+          <Route path={'/:page'} element={<Home />} />
         </Route>
       </>
     )

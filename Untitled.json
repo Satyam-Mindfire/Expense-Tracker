@@ -28,6 +28,14 @@
         {
           "type": "route",
           "uuid": "e8b0d62f-ad0a-4fe6-8d12-4aa17ac0b7e1"
+        },
+        {
+          "type": "route",
+          "uuid": "2f8727cf-04cb-4e6e-ae86-36485a2a7943"
+        },
+        {
+          "type": "route",
+          "uuid": "fb00498e-7aec-47b4-8fcf-a9c6f507747c"
         }
       ]
     }
@@ -276,11 +284,11 @@
       "type": "http",
       "documentation": "Retrive all the expanse data",
       "method": "get",
-      "endpoint": "expanses",
+      "endpoint": "expanses/1",
       "responses": [
         {
           "uuid": "e57a77c9-b6c8-4765-8334-cbd2232f1bbf",
-          "body": "{\n  \"status\": \"true\",\n  \"message\": \"User fetch success\",\n  \"data\":[\n    {\n      \"id\":1,\n      \"title\": \"Groceries\",\n      \"description\": \"Weekly grocery shopping\",\n      \"amount\": 50.25,\n      \"date\": \"2024-04-10\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":2,\n      \"title\": \"Gasoline\",\n      \"description\": \"Refill car's fuel tank\",\n      \"amount\": 40.8,\n      \"date\": \"2024-04-09\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":3,\n      \"title\": \"Office Supplies\",\n      \"description\": \"Purchase printer paper and ink\",\n      \"amount\": 25.5,\n      \"date\": \"2024-04-08\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":4,\n      \"title\": \"Restaurant Dinner\",\n      \"description\": \"Dinner with friends\",\n      \"amount\": 70.0,\n      \"date\": \"2024-04-11\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":5,\n      \"title\": \"Flight Ticket\",\n      \"description\": \"Book flight tickets for vacation\",\n      \"amount\": 300.0,\n      \"date\": \"2024-04-15\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":6,\n      \"title\": \"Printer Ink\",\n      \"description\": \"Purchase printer ink cartridge\",\n      \"amount\": 30.0,\n      \"date\": \"2024-04-18\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":7,\n      \"title\": \"Movie Tickets\",\n      \"description\": \"Watch a new movie\",\n      \"amount\": 25.0,\n      \"date\": \"2024-04-20\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":8,\n      \"title\": \"Train Tickets\",\n      \"description\": \"Buy train tickets for weekend trip\",\n      \"amount\": 60.0,\n      \"date\": \"2024-04-14\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":9,\n      \"title\": \"Desk Chair\",\n      \"description\": \"Purchase a new ergonomic desk chair\",\n      \"amount\": 150.0,\n      \"date\": \"2024-04-16\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":10,\n      \"title\": \"Dinner Party\",\n      \"description\": \"Host a dinner party for friends\",\n      \"amount\": 100.0,\n      \"date\": \"2024-04-18\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":11,\n      \"title\": \"Fast Food\",\n      \"description\": \"Grab a quick bite at a fast-food restaurant\",\n      \"amount\": 10.0,\n      \"date\": \"2024-04-20\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":12,\n      \"title\": \"Hotel Stay\",\n      \"description\": \"Book a hotel for a weekend getaway\",\n      \"amount\": 200.0,\n      \"date\": \"2024-04-22\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":13,\n      \"title\": \"Printer Paper\",\n      \"description\": \"Purchase a pack of printer paper\",\n      \"amount\": 20.0,\n      \"date\": \"2024-04-24\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":14,\n      \"title\": \"Eating Out\",\n      \"description\": \"Dinner with family at a fancy restaurant\",\n      \"amount\": 80.0,\n      \"date\": \"2024-04-25\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":15,\n      \"title\": \"Flight Tickets\",\n      \"description\": \"Book flights for summer vacation\",\n      \"amount\": 500.0,\n      \"date\": \"2024-04-28\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":16,\n      \"title\": \"Stationery\",\n      \"description\": \"Buy pens, pencils, and notebooks\",\n      \"amount\": 15.0,\n      \"date\": \"2024-05-01\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":17,\n      \"title\": \"Movie Night\",\n      \"description\": \"Watch a new movie at the cinema\",\n      \"amount\": 30.0,\n      \"date\": \"2024-05-03\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":18,\n      \"title\": \"Grocery Shopping\",\n      \"description\": \"Stock up on essentials for the month\",\n      \"amount\": 120.0,\n      \"date\": \"2024-05-06\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":19,\n      \"title\": \"Road Trip\",\n      \"description\": \"Plan a weekend road trip with friends\",\n      \"amount\": 200.0,\n      \"date\": \"2024-05-10\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":20,\n      \"title\": \"Office Chair\",\n      \"description\": \"Upgrade to a comfortable office chair\",\n      \"amount\": 250.0,\n      \"date\": \"2024-05-14\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":21,\n      \"title\": \"Concert Tickets\",\n      \"description\": \"Buy tickets for a live concert\",\n      \"amount\": 100.0,\n      \"date\": \"2024-05-18\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":22,\n      \"title\": \"Takeout\",\n      \"description\": \"Order takeout for dinner\",\n      \"amount\": 25.0,\n      \"date\": \"2024-05-20\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":23,\n      \"title\": \"Hotel Booking\",\n      \"description\": \"Book a hotel room for a business trip\",\n      \"amount\": 150.0,\n      \"date\": \"2024-05-24\",\n      \"category\": \"Travel\"\n    }\n  ],\n  \"error\": null\n}\n",
+          "body": "{\n  \"status\": \"true\",\n  \"message\": \"User fetch success\",\n  \"data\":[\n    {\n      \"id\":1,\n      \"title\": \"Groceries\",\n      \"description\": \"Weekly grocery shopping\",\n      \"amount\": 50.25,\n      \"date\": \"2024-04-10\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":2,\n      \"title\": \"Gasoline\",\n      \"description\": \"Refill car's fuel tank\",\n      \"amount\": 40.8,\n      \"date\": \"2024-04-09\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":3,\n      \"title\": \"Office Supplies\",\n      \"description\": \"Purchase printer paper and ink\",\n      \"amount\": 25.5,\n      \"date\": \"2024-04-08\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":4,\n      \"title\": \"Restaurant Dinner\",\n      \"description\": \"Dinner with friends\",\n      \"amount\": 70.0,\n      \"date\": \"2024-04-11\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":5,\n      \"title\": \"Flight Ticket\",\n      \"description\": \"Book flight tickets for vacation\",\n      \"amount\": 300.0,\n      \"date\": \"2024-04-15\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":6,\n      \"title\": \"Printer Ink\",\n      \"description\": \"Purchase printer ink cartridge\",\n      \"amount\": 30.0,\n      \"date\": \"2024-04-18\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":7,\n      \"title\": \"Movie Tickets\",\n      \"description\": \"Watch a new movie\",\n      \"amount\": 25.0,\n      \"date\": \"2024-04-20\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":8,\n      \"title\": \"Train Tickets\",\n      \"description\": \"Buy train tickets for weekend trip\",\n      \"amount\": 60.0,\n      \"date\": \"2024-04-14\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":9,\n      \"title\": \"Desk Chair\",\n      \"description\": \"Purchase a new ergonomic desk chair\",\n      \"amount\": 150.0,\n      \"date\": \"2024-04-16\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":10,\n      \"title\": \"Dinner Party\",\n      \"description\": \"Host a dinner party for friends\",\n      \"amount\": 100.0,\n      \"date\": \"2024-04-18\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":11,\n      \"title\": \"Fast Food\",\n      \"description\": \"Grab a quick bite at a fast-food restaurant\",\n      \"amount\": 10.0,\n      \"date\": \"2024-04-20\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":12,\n      \"title\": \"Hotel Stay\",\n      \"description\": \"Book a hotel for a weekend getaway\",\n      \"amount\": 200.0,\n      \"date\": \"2024-04-22\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":13,\n      \"title\": \"Printer Paper\",\n      \"description\": \"Purchase a pack of printer paper\",\n      \"amount\": 20.0,\n      \"date\": \"2024-04-24\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":14,\n      \"title\": \"Eating Out\",\n      \"description\": \"Dinner with family at a fancy restaurant\",\n      \"amount\": 80.0,\n      \"date\": \"2024-04-25\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":15,\n      \"title\": \"Flight Tickets\",\n      \"description\": \"Book flights for summer vacation\",\n      \"amount\": 500.0,\n      \"date\": \"2024-04-28\",\n      \"category\": \"Travel\"\n    }\n  ],\n  \"current_page\":1,\n  \"next_page_url\":\"http://localhost:3002/api/v1/expanses/2\",\n  \"prev_page_url\":null,\n  \"total_page\":3,\n  \"per_page\":15,\n  \"error\": null\n}\n",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -307,6 +315,134 @@
         },
         {
           "uuid": "651823d8-0cca-40a8-abbd-3660c16c98b5",
+          "body": "{\n  \"status\": \"false\",\n  \"message\": \"Unauthorized\",\n  \"data\": null,\n  \"error\": null\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "Authorization",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2f8727cf-04cb-4e6e-ae86-36485a2a7943",
+      "type": "http",
+      "documentation": "Retrive all the expanse data",
+      "method": "get",
+      "endpoint": "expanses/2",
+      "responses": [
+        {
+          "uuid": "41e76a0a-6bbb-4148-b835-0d189030e002",
+          "body": "{\n  \"status\": \"true\",\n  \"message\": \"User fetch success\",\n  \"data\": [\n    {\n      \"id\": 16,\n      \"title\": \"Stationery\",\n      \"description\": \"Buy pens, pencils, and notebooks\",\n      \"amount\": 150,\n      \"date\": \"2024-05-01\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\": 17,\n      \"title\": \"Movie Night\",\n      \"description\": \"Watch a new movie at the cinema\",\n      \"amount\": 30000,\n      \"date\": \"2024-05-03\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\": 18,\n      \"title\": \"Grocery Shopping\",\n      \"description\": \"Stock up on essentials for the month\",\n      \"amount\": 120,\n      \"date\": \"2024-05-06\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\": 19,\n      \"title\": \"Road Trip\",\n      \"description\": \"Plan a weekend road trip with friends\",\n      \"amount\": 200,\n      \"date\": \"2024-05-10\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\": 20,\n      \"title\": \"Office Chair\",\n      \"description\": \"Upgrade to a comfortable office chair\",\n      \"amount\": 2500,\n      \"date\": \"2024-05-14\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\": 21,\n      \"title\": \"Concert Tickets\",\n      \"description\": \"Buy tickets for a live concert\",\n      \"amount\": 100,\n      \"date\": \"2024-05-18\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\": 22,\n      \"title\": \"Takeout\",\n      \"description\": \"Order takeout for dinner\",\n      \"amount\": 25,\n      \"date\": \"2024-05-20\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\": 23,\n      \"title\": \"Hotel Booking\",\n      \"description\": \"Book a hotel room for a business trip\",\n      \"amount\": 1500,\n      \"date\": \"2024-05-24\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\": 24,\n      \"title\": \"Groceries 1\",\n      \"description\": \"Weekly grocery shopping\",\n      \"amount\": 50.25,\n      \"date\": \"2024-04-10\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\": 25,\n      \"title\": \"Gasoline1\",\n      \"description\": \"Refill car's fuel tank\",\n      \"amount\": 40.8,\n      \"date\": \"2024-04-09\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\": 26,\n      \"title\": \"Office Supplies1\",\n      \"description\": \"Purchase printer paper and ink\",\n      \"amount\": 25.5,\n      \"date\": \"2024-04-08\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\": 27,\n      \"title\": \"Restaurant Dinner1\",\n      \"description\": \"Dinner with friends\",\n      \"amount\": 70,\n      \"date\": \"2024-04-11\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\": 28,\n      \"title\": \"Flight Ticket1\",\n      \"description\": \"Book flight tickets for vacation\",\n      \"amount\": 300,\n      \"date\": \"2024-04-15\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\": 29,\n      \"title\": \"Printer Ink1\",\n      \"description\": \"Purchase printer ink cartridge\",\n      \"amount\": 30,\n      \"date\": \"2024-04-18\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\": 30,\n      \"title\": \"Movie Tickets1\",\n      \"description\": \"Watch a new movie\",\n      \"amount\": 25,\n      \"date\": \"2024-04-20\",\n      \"category\": \"Other\"\n    }\n  ],\n  \"current_page\": 2,\n  \"next_page_url\": \"http://localhost:3002/api/v1/expanses/3\",\n  \"prev_page_url\": \"http://localhost:3002/api/v1/expanses/1\",\n  \"total_page\": 3,\n  \"per_page\": 15,\n  \"error\": null\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "Authorization",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "44cae017-1433-40c4-8865-53bfc012d6cf",
+          "body": "{\n  \"status\": \"false\",\n  \"message\": \"Unauthorized\",\n  \"data\": null,\n  \"error\": null\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "Authorization",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "fb00498e-7aec-47b4-8fcf-a9c6f507747c",
+      "type": "http",
+      "documentation": "Retrive all the expanse data",
+      "method": "get",
+      "endpoint": "expanses/3",
+      "responses": [
+        {
+          "uuid": "6177b4cf-ca3b-4499-9a4d-62b8948b25c5",
+          "body": "{\n  \"status\": \"true\",\n  \"message\": \"User fetch success\",\n  \"data\":[\n    {\n      \"id\":31,\n      \"title\": \"Stationery\",\n      \"description\": \"Buy pens, pencils, and notebooks\",\n      \"amount\": 150.0,\n      \"date\": \"2024-05-01\",\n      \"category\": \"Office\"\n    },\n    {\n      \"id\":32,\n      \"title\": \"Movie Night\",\n      \"description\": \"Watch a new movie at the cinema\",\n      \"amount\": 30000.0,\n      \"date\": \"2024-05-03\",\n      \"category\": \"Other\"\n    },\n    {\n      \"id\":33,\n      \"title\": \"Grocery Shopping\",\n      \"description\": \"Stock up on essentials for the month\",\n      \"amount\": 120.0,\n      \"date\": \"2024-05-06\",\n      \"category\": \"Food\"\n    },\n    {\n      \"id\":34,\n      \"title\": \"Road Trip\",\n      \"description\": \"Plan a weekend road trip with friends\",\n      \"amount\": 200.0,\n      \"date\": \"2024-05-10\",\n      \"category\": \"Travel\"\n    },\n    {\n      \"id\":35,\n      \"title\": \"Office Chair\",\n      \"description\": \"Upgrade to a comfortable office chair\",\n      \"amount\": 2500.0,\n      \"date\": \"2024-05-14\",\n      \"category\": \"Office\"\n    }\n  ],\n  \"current_page\":3,\n  \"next_page_url\": null,\n  \"prev_page_url\":\"http://localhost:3002/api/v1/expanses/2\",\n  \"total_page\":3,\n  \"per_page\":15,\n  \"error\": null\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "Authorization",
+              "value": "",
+              "invert": false,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "325d7b76-dc32-4513-9010-261e3bcec099",
           "body": "{\n  \"status\": \"false\",\n  \"message\": \"Unauthorized\",\n  \"data\": null,\n  \"error\": null\n}",
           "latency": 0,
           "statusCode": 401,

@@ -31,6 +31,7 @@ export const Strings = {
   //Home page string
   addExpense: "Add Expense",
   filters: "FILTERS",
+  reset: "RESET",
   categories: "CATEGORIES",
   amount: "AMOUNT",
   date: "DATE",
@@ -56,7 +57,9 @@ export const Strings = {
   profile: "Profile",
   logout: "Logout",
   navbarHeading: "Expense Tracker App",
-
+  expenseDeleteStr: "Are you sure you want to delete this expense?",
+  noDataFound: "No data found...",
+  loading: "Loading...",
   apiErrors: {
     requestTimeout:
       "Request timed out. Please check your internet connection or try again later.",
@@ -75,6 +78,6 @@ export const Strings = {
   },
 
   queryKeys: {
-    expanses: 'expenses'
-  }
+    expanses: "expenses",
+  },
 } as const;
