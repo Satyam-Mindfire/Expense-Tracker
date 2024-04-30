@@ -3,7 +3,12 @@ import {
   sortByDate,
   sortByPriceHighToLow,
   sortByPriceLowToHigh,
-  findElementById
+  findElementById,
+  filterExpenses,
+  filterExpensesByAmountRanges,
+  filterExpensesByCategory,
+  filterExpensesByDateRange,
+  updateExpenses,
 } from "./Utilities";
 
 export {
@@ -12,5 +17,10 @@ export {
   sortByDate,
   sortByPriceHighToLow,
   sortByPriceLowToHigh,
-  findElementById
+  findElementById,
+  filterExpenses,
+  filterExpensesByAmountRanges,
+  filterExpensesByCategory,
+  filterExpensesByDateRange,
+  updateExpenses,
 };

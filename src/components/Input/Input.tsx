@@ -14,18 +14,41 @@ interface InputProps {
   // ID of the input field
   id: string;
 
-  //Placeholder of the input field
+  // Placeholder text for the input field
   placeholder?: string;
 
-  // CSS class names for styling the label, input, and error message
+  // CSS class name for styling the label
   labelClassName?: string;
+
+  // CSS class name for styling the input field
   inputClassName?: string;
+
+  // CSS class name for styling the error message
   errorClassName?: string;
+
+  // CSS class name for styling the container of the input field and label
   containerClassName?: string;
+
+  // Minimum date for date type input field
   minDate?: string;
 }
 
-// Create the FormField component
+/**
+ * Input Component
+ * 
+ * Renders an input field with label and error message for formik forms.
+ * 
+ * @param label Label text for the field
+ * @param type Type of the input field (e.g., 'text', 'email', 'password')
+ * @param name Name of the input field
+ * @param id ID of the input field
+ * @param placeholder Placeholder text for the input field
+ * @param labelClassName CSS class name for styling the label
+ * @param inputClassName CSS class name for styling the input field
+ * @param errorClassName CSS class name for styling the error message
+ * @param containerClassName CSS class name for styling the container of the input field and label
+ * @param minDate Minimum date for date type input field
+ */
 const Input: React.FC<InputProps> = ({
   label,
   type,
