@@ -1,17 +1,16 @@
 import { Formik, Form } from "formik";
 import { Input, Button } from "../../components";
 import { Icons, Routes, Strings } from "../../constants";
-import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts";
-import { showSuccessToast } from "../../utils";
+import { showSuccessToast, signInValidationSchema } from "../../utils";
 import { LoginValueType } from "../../types/user";
 import { AxiosResponse } from "axios";
 import { useSignInMutation } from "../../queries";
 
 /**
  * SignIn Component
- * 
+ *
  * Renders the sign-in form for users to log in.
  * Allows users to input their email and password.
  * Validates form inputs using Yup schema.
@@ -21,16 +20,6 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuthContext();
-
-  // Validation schema for form inputs
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email(Strings.invalidEmail)
-      .required(Strings.emailIsRequired),
-    password: Yup.string()
-      .min(8, Strings.passwordRules)
-      .required(Strings.passwordIsRequired),
-  });
 
   /**
    * Handle successful login response
@@ -82,7 +71,7 @@ const SignIn = () => {
           <Formik
             initialValues={{ email: "", password: "" }}
             onSubmit={handleSubmit}
-            validationSchema={validationSchema}
+            validationSchema={signInValidationSchema}
           >
             <Form>
               {/* Email input */}

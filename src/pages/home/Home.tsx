@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Navbar,
-  Table,
-  Dropdown,
-  Checkbox,
-  CustomInput,
-  FormPopup,
-  ProfilePopup,
-} from "../../components";
-import { Routes, Strings, minDate } from "../../constants";
-import { sortingObject, categoriesObject, amountRanges } from "../../constants";
+import { Navbar, Table, FormPopup, ProfilePopup } from "../../components";
+import { Routes, Strings } from "../../constants";
+import { sortingObject } from "../../constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../contexts";
 import { useQueryClient } from "@tanstack/react-query";
@@ -111,11 +102,11 @@ const Home = () => {
    */
   const handleCategoryCheckboxChange = (category: string) => {
     if (selectedCategories.includes(category)) {
-      setSelectedCategories(
-        selectedCategories.filter((item) => item !== category)
+      setSelectedCategories((prevValue) =>
+        prevValue.filter((item) => item !== category)
       );
     } else {
-      setSelectedCategories([...selectedCategories, category]);
+      setSelectedCategories((prevValue) => [...prevValue, category]);
     }
   };
 
@@ -125,11 +116,11 @@ const Home = () => {
    */
   const handleAmountCheckboxChange = (amount: string) => {
     if (selectedAmountRanges.includes(amount)) {
-      setSelectedAmountRanges(
-        selectedAmountRanges.filter((item) => item !== amount)
+      setSelectedAmountRanges((prevValue) =>
+        prevValue.filter((item) => item !== amount)
       );
     } else {
-      setSelectedAmountRanges([...selectedAmountRanges, amount]);
+      setSelectedAmountRanges((prevValue) => [...prevValue, amount]);
     }
   };
 
@@ -273,20 +264,6 @@ const Home = () => {
         selectedSorting={selectedSorting}
         setSelectedSorting={setSelectedSorting}
       />
-      {/* <div className="mb-2 flex justify-between items-center">
-        <Button className="rounded-2xl ml-5 w-32" onClick={onClickAddExpanse}>
-          {Strings.addExpense}
-        </Button>
-        <div className="flex mr-5 border p-2">
-          <Dropdown
-            options={sortingObject}
-            selectedValue={selectedSorting}
-            onChange={(e) => setSelectedSorting(e.target.value)}
-            label="Sort by :"
-            selectClassName="font-semibold text-sm"
-          />
-        </div>
-      </div> */}
 
       <div className="flex border">
         {/* Filter View */}

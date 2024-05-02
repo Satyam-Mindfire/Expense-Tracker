@@ -4,14 +4,14 @@ import { Icons, Routes, Strings } from "../../constants";
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts";
-import { showSuccessToast } from "../../utils";
+import { showSuccessToast, signUpValidationSchema } from "../../utils";
 import { SignUpRequest } from "../../types/user";
 import { AxiosResponse } from "axios";
 import { useSignUpMutation } from "../../queries";
 
 /**
  * SignUp Component
- * 
+ *
  * Renders the sign-up form for new users to register.
  * Allows users to input their name, email, password, and confirm password.
  * Validates form inputs using Yup schema.
@@ -51,20 +51,6 @@ const SignUp = () => {
     }
   };
 
-  // Validation schema for form inputs
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required(Strings.nameIsRequired),
-    email: Yup.string()
-      .email(Strings.invalidEmail)
-      .required(Strings.emailIsRequired),
-    password: Yup.string()
-      .min(8, Strings.passwordRules)
-      .required(Strings.passwordIsRequired),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], Strings.passwordMustMatch)
-      .required(Strings.confirmPasswordIsRequired),
-  });
-
   /**
    * Navigate back to the previous page
    */
@@ -91,7 +77,7 @@ const SignUp = () => {
               confirmPassword: "",
             }}
             onSubmit={handleSubmit}
-            validationSchema={validationSchema}
+            validationSchema={signUpValidationSchema}
           >
             <Form>
               {/* Name input */}

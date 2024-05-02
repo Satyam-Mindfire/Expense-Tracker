@@ -10,6 +10,8 @@ import {
   filterExpensesByDateRange,
   updateExpenses,
 } from "./Utilities";
+import { signInValidationSchema } from "./validation_schema/signInSchema";
+import { signUpValidationSchema } from "./validation_schema/signUpSchema";
 
 export {
   showErrorToast,
@@ -23,4 +25,6 @@ export {
   filterExpensesByCategory,
   filterExpensesByDateRange,
   updateExpenses,
+  signInValidationSchema,
+  signUpValidationSchema
 };

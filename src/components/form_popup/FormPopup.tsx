@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../button/Button";
-import { Icons, Strings } from "../../constants";
+import { Icons, Strings, name } from "../../constants";
 import { Form, Formik } from "formik";
 import Input from "../input/Input";
 import * as Yup from "yup";
