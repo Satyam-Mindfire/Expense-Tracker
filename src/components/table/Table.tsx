@@ -28,12 +28,12 @@ const Table: React.FC<TableProps> = ({ data, onEdit, onDelete }) => {
       <thead>
         <tr className="bg-gray-50">
           {/* Table header */}
-          <th className="border border-gray-200 py-2 px-4">Title</th>
-          <th className="border border-gray-200 py-2 px-4">Description</th>
-          <th className="border border-gray-200 py-2 px-4">Amount</th>
-          <th className="border border-gray-200 py-2 px-4">Date</th>
-          <th className="border border-gray-200 py-2 px-4">Category</th>
-          <th className="border border-gray-200 py-2 px-4">Actions</th>
+          <th className="border border-gray-200 py-2 px-4">{Strings.title}</th>
+          <th className="border border-gray-200 py-2 px-4">{Strings.description}</th>
+          <th className="border border-gray-200 py-2 px-4">{Strings.amountStr}</th>
+          <th className="border border-gray-200 py-2 px-4">{Strings.dateStr}</th>
+          <th className="border border-gray-200 py-2 px-4">{Strings.categoryStr}</th>
+          <th className="border border-gray-200 py-2 px-4">{Strings.actions}</th>
         </tr>
       </thead>
       <tbody>
