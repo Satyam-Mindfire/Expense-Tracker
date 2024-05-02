@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "./index";
 import { User } from "../types";
+import { Strings } from "../constants";
 
 /**
  * A custom hook for managing user authentication state and persisting user data.
@@ -16,7 +17,7 @@ export const useAuthUser = () => {
   useEffect(() => {
     try {
       // Retrieve user data from local storage
-      const storedUser = getItem("user");
+      const storedUser = getItem(Strings.localStorageKeys.user);
       // If user data exists in local storage, set the user state
       if (storedUser) {
         setUser(JSON.parse(storedUser));
@@ -35,7 +36,7 @@ export const useAuthUser = () => {
    */
   const addUser = (newUser: User) => {
     setUser(newUser);
-    setItem("user", JSON.stringify(newUser));
+    setItem(Strings.localStorageKeys.user, JSON.stringify(newUser));
   };
 
   /**
@@ -43,7 +44,7 @@ export const useAuthUser = () => {
    */
   const removeUser = () => {
     setUser(null);
-    setItem("user", "");
+    setItem(Strings.localStorageKeys.user, "");
   };
 
   /**

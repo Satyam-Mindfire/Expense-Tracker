@@ -9,12 +9,8 @@ import {
   FormPopup,
   ProfilePopup,
 } from "../../components";
-import { Routes, Strings } from "../../constants";
-import {
-  sortingObject,
-  categoriesObject,
-  amountRanges,
-} from "../../constants/constant";
+import { Routes, Strings, minDate } from "../../constants";
+import { sortingObject, categoriesObject, amountRanges } from "../../constants";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../contexts";
 import { useQueryClient } from "@tanstack/react-query";
@@ -30,6 +26,8 @@ import {
 import { AxiosResponse } from "axios";
 import { Pagination } from "./components/Pagination";
 import { useExpenseQuery } from "../../queries";
+import FilterView from "./components/FilterView";
+import SortingAddExpenseView from "./components/SortingAddExpenseView";
 
 /**
  * Home Component
@@ -65,6 +63,7 @@ const Home = () => {
     }
   }, [expanseList]);
 
+  // Update expense data after filtering
   useEffect(() => {
     if (expanseList?.data.data) {
       const filteredExpenses = filterExpenses(
@@ -84,22 +83,23 @@ const Home = () => {
     selectedCategories,
   ]);
 
+  // Update expense data after sorting
   useEffect(() => {
     let sortedExpenses = [];
     switch (selectedSorting) {
-      case "date":
+      case sortingObject[3].value:
         sortedExpenses = expenses.slice().sort(sortByDate);
         setExpenses(sortedExpenses);
         break;
-      case "priceLowToHigh":
+      case sortingObject[1].value:
         sortedExpenses = expenses.slice().sort(sortByPriceLowToHigh);
         setExpenses(sortedExpenses);
         break;
-      case "priceHighToLow":
+      case sortingObject[2].value:
         sortedExpenses = expenses.slice().sort(sortByPriceHighToLow);
         setExpenses(sortedExpenses);
         break;
-      case "none":
+      case sortingObject[0].value:
         setExpenses(expanseList?.data.data);
         break;
     }
@@ -267,8 +267,13 @@ const Home = () => {
       {/* Navbar */}
       <Navbar onClick={openProfilePopup} />
 
-      {/* Sorting and Add Expense section */}
-      <div className="mb-2 flex justify-between items-center">
+      {/* Sorting and Add Expense View */}
+      <SortingAddExpenseView
+        onClickAddExpanse={onClickAddExpanse}
+        selectedSorting={selectedSorting}
+        setSelectedSorting={setSelectedSorting}
+      />
+      {/* <div className="mb-2 flex justify-between items-center">
         <Button className="rounded-2xl ml-5 w-32" onClick={onClickAddExpanse}>
           {Strings.addExpense}
         </Button>
@@ -281,75 +286,21 @@ const Home = () => {
             selectClassName="font-semibold text-sm"
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="flex border">
-        {/* Filter checkboxes */}
-        <div className="pt-2 w-60 border">
-          <div className="flex justify-between items-center">
-            <label className="font-semibold ml-5">{Strings.filters}</label>
-            <Button className="mr-2 py-1" onClick={resetFilters}>
-              {Strings.reset}
-            </Button>
-          </div>
-          {/* Categories */}
-          <div className="mt-2 border-t">
-            <label className="font-semibold mb-2 ml-5 text-sm">
-              {Strings.categories}
-            </label>
-            {categoriesObject.map((category) => (
-              <Checkbox
-                key={category}
-                label={category}
-                checked={selectedCategories.includes(category)}
-                onChange={() => handleCategoryCheckboxChange(category)}
-              />
-            ))}
-          </div>
-
-          {/* Amount */}
-          <div className="mt-2 border-t">
-            <label className="font-semibold mb-2 ml-5 text-sm">
-              {Strings.amount}
-            </label>
-            {amountRanges.map((amount) => (
-              <Checkbox
-                key={amount}
-                label={amount}
-                checked={selectedAmountRanges.includes(amount)}
-                onChange={() => handleAmountCheckboxChange(amount)}
-              />
-            ))}
-          </div>
-
-          {/* Date */}
-          <div className="mt-2 border-t">
-            <label className="font-semibold mb-2 ml-5 text-sm">
-              {Strings.date}
-            </label>
-            <CustomInput
-              label={Strings.from}
-              id="from"
-              type="Date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              inputClassName="px-1 ml-1"
-              labelClassName="w-8"
-              minDate="2000-01-01"
-            />
-
-            <CustomInput
-              label={Strings.to}
-              id="to"
-              type="Date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              inputClassName="px-1 ml-1"
-              labelClassName="w-8"
-              minDate={dateFrom}
-            />
-          </div>
-        </div>
+        {/* Filter View */}
+        <FilterView
+          resetFilters={resetFilters}
+          selectedCategories={selectedCategories}
+          selectedAmountRanges={selectedAmountRanges}
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          handleCategoryCheckboxChange={handleCategoryCheckboxChange}
+          handleAmountCheckboxChange={handleAmountCheckboxChange}
+          setDateFrom={setDateFrom}
+          setDateTo={setDateTo}
+        />
         {/* Expense table */}
         <div className="overflow-x-auto w-full">
           {/* Loader */}

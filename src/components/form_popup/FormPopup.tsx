@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import Button from "../button/Button";
 import { Icons, Strings } from "../../constants";
 import { Form, Formik } from "formik";
-import Input from "../Input/Input";
+import Input from "../input/Input";
 import * as Yup from "yup";
 import Dropdown from "../dropdown/Dropdown";
-import { categoriesDropdownObject } from "../../constants/constant";
+import {
+  categoriesDropdownObject,
+  categoriesObject,
+  minDate,
+} from "../../constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { findElementById } from "../../utils";
 import { AxiosResponse } from "axios";
@@ -30,9 +34,9 @@ interface FormPopupProps {
 
 /**
  * FormPopup Component
- * 
+ *
  * Renders a popup form for adding or editing expenses.
- * 
+ *
  * @param isOpen Determines whether the form popup is open or closed
  * @param onClose Callback function to close the form popup
  * @param handleAddExpanseSubmit Callback function to handle form submission
@@ -51,7 +55,9 @@ const FormPopup: React.FC<FormPopupProps> = ({
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
-  const [selectedCategory, setSelectedCategory] = useState<string>("Food");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categoriesObject[0]
+  );
 
   // Query client for fetching data
   const queryClient = useQueryClient();
@@ -66,10 +72,19 @@ const FormPopup: React.FC<FormPopupProps> = ({
 
   // Form validation schema
   const validationSchema = Yup.object().shape({
-    title: Yup.string().min(3, Strings.titleAtLeast3Characters).required(Strings.titleRequired),
-    description: Yup.string().min(3, Strings.descriptionAtLeast3Characters).required(Strings.descriptionRequired),
-    amount: Yup.number().moreThan(0, Strings.amountPositive).required(Strings.amountRequired),
-    date: Yup.date().min("2000-01-01", Strings.invalidDate).max(maxDate, Strings.invalidDate).required(Strings.dateRequired),
+    title: Yup.string()
+      .min(3, Strings.titleAtLeast3Characters)
+      .required(Strings.titleRequired),
+    description: Yup.string()
+      .min(3, Strings.descriptionAtLeast3Characters)
+      .required(Strings.descriptionRequired),
+    amount: Yup.number()
+      .moreThan(0, Strings.amountPositive)
+      .required(Strings.amountRequired),
+    date: Yup.date()
+      .min(minDate, Strings.invalidDate)
+      .max(maxDate, Strings.invalidDate)
+      .required(Strings.dateRequired),
   });
 
   // Fill form fields when editing an expense
@@ -87,7 +102,7 @@ const FormPopup: React.FC<FormPopupProps> = ({
     setDescription("");
     setDate("");
     setAmount(0);
-    setSelectedCategory("");
+    setSelectedCategory(categoriesObject[0]);
   };
 
   // Effect to fill form fields when editing an expense
@@ -101,15 +116,22 @@ const FormPopup: React.FC<FormPopupProps> = ({
   }, [expenses, id]);
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center ${isOpen ? "visible" : "hidden"}`}>
+    <div
+      className={`fixed inset-0 flex items-center justify-center ${
+        isOpen ? "visible" : "hidden"
+      }`}
+    >
       <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
       <div className="z-10 bg-white p-2 rounded-lg shadow-lg w-full max-w-md px-5 pb-5 h-[75vh] overflow-y-auto">
         <div className="flex items-center justify-between">
           <label>{Strings.addNewExpanse}</label>
-          <Button className="bg-white rounded-full" onClick={() => {
-            resetForm();
-            onClose();
-          }}>
+          <Button
+            className="bg-white rounded-full"
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
+          >
             <img src={Icons.close} className="w-5 h-5" />
           </Button>
         </div>
@@ -120,15 +142,34 @@ const FormPopup: React.FC<FormPopupProps> = ({
             amount: amount,
             date: date,
           }}
-          onSubmit={(values) => handleAddExpanseSubmit(values, selectedCategory)}
+          onSubmit={(values) => {
+            handleAddExpanseSubmit(values, selectedCategory);
+            resetForm();
+          }}
           validationSchema={validationSchema}
           enableReinitialize
         >
           <Form>
             <Input label={Strings.title} type="text" name="title" id="title" />
-            <Input label={Strings.description} type="text" name="description" id="description" />
-            <Input label={Strings.amountStr} type="number" name="amount" id="amount" />
-            <Input label={Strings.dateStr} type="date" name="date" id="date" minDate="2000-01-01" />
+            <Input
+              label={Strings.description}
+              type="text"
+              name="description"
+              id="description"
+            />
+            <Input
+              label={Strings.amountStr}
+              type="number"
+              name="amount"
+              id="amount"
+            />
+            <Input
+              label={Strings.dateStr}
+              type="date"
+              name="date"
+              id="date"
+              minDate="2000-01-01"
+            />
             <Dropdown
               options={categoriesDropdownObject}
               selectedValue={selectedCategory}

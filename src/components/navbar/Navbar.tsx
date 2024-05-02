@@ -1,4 +1,5 @@
 import { Strings } from "../../constants";
+import { designation, name } from "../../constants";
 import Button from "../button/Button";
 
 interface NavbarProps {
@@ -33,8 +34,8 @@ const Navbar: React.FC<NavbarProps> = ({ onClick }) => {
 
           {/* Profile details */}
           <div className="text-white">
-            <p className="text-sm font-semibold text-left">Satyam</p>
-            <p className="text-xs">Software Engineer</p>
+            <p className="text-sm font-semibold text-left">{name}</p>
+            <p className="text-xs">{designation}</p>
           </div>
         </div>
       </Button>

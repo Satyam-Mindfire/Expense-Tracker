@@ -1,6 +1,6 @@
 import { Formik, Form } from "formik";
 import { Input, Button } from "../../components";
-import { Icons, Strings } from "../../constants";
+import { Icons, Routes, Strings } from "../../constants";
 import * as Yup from "yup";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts";
@@ -28,7 +28,7 @@ const SignUp = () => {
    */
   const handleSignUpSuccess = (response: AxiosResponse<any, any>) => {
     login(response.data);
-    const from = location.state?.from || "/";
+    const from = location.state?.from || Routes.home;
     navigate(from);
     showSuccessToast({ message: Strings.successSignUpMsg });
   };

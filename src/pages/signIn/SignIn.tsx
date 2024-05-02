@@ -38,7 +38,7 @@ const SignIn = () => {
    */
   const handleLoginSuccess = (response: AxiosResponse<any, any>) => {
     login(response.data);
-    const from = location.state?.from || "/";
+    const from = location.state?.from || Routes.home;
     navigate(from);
     showSuccessToast({ message: Strings.successSignInMsg });
   };

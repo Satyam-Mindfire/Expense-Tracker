@@ -48,3 +48,8 @@ export const amountRanges = [
   "Rs. 2000 to Rs. 3000",
   "Rs. 3000 to More",
 ];
+
+export const minDate = "2000-01-01"
+
+export const name = 'Satyam'
+export const designation = 'Software Engineer'

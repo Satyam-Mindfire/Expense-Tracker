@@ -43,6 +43,7 @@ export const Strings = {
   description: "Description",
   dateStr: "Date",
   categoryStr: "Category",
+  actions: "Actions",
   submit: "Submit",
   titleRequired: "Title is required",
   descriptionRequired: "Description is required",
@@ -60,6 +61,8 @@ export const Strings = {
   expenseDeleteStr: "Are you sure you want to delete this expense?",
   noDataFound: "No data found...",
   loading: "Loading...",
+  previous: "Previous",
+  next: "Next",
   apiErrors: {
     requestTimeout:
       "Request timed out. Please check your internet connection or try again later.",
@@ -79,5 +82,8 @@ export const Strings = {
 
   queryKeys: {
     expanses: "expenses",
+  },
+  localStorageKeys: {
+    user: "user",
   },
 } as const;
